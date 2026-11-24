@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Verify Health') {
             steps {
-                sh 'sleep 3 && curl -f http://localhost:5050/health || exit 1'
+                sh 'sleep 3 && curl -f http://host.docker.internal:5050/health || exit 1'
             }
         }
     }
