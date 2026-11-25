@@ -1,14 +1,15 @@
-# Self-Healing Cloud Web System
+# Self-Healing Cloud Web System (Kubernetes)
 
-High-availability replicated web architecture with automated load balancing, failover, and container recovery.
+High-availability replicated web architecture orchestrated by Kubernetes with automated load balancing, failover, and self-healing pod recovery.
 
 ## Architecture
-- **Load Balancer:** Nginx Reverse Proxy (`:5050` -> `:80`) with `proxy_next_upstream` auto-failover
-- **Compute Nodes:** 3 replicated Python Flask web containers
-- **State & Logs:** Redis in-memory database for shared node metrics and event logs
-- **Self-Healing:** Docker health checks (3s interval) + `restart: always` policy
-- **CI/CD:** Jenkins automated build and health verification pipeline
+- **Orchestration:** Kubernetes (`Deployment` with 3 replicas + `LoadBalancer` Service)
+- **Compute Nodes:** 3 replicated Python Flask web pods
+- **State & Logs:** Redis in-memory database for shared node metrics and cluster event logs
+- **Self-Healing:** Kubernetes HTTP `livenessProbe` (3s interval) + automatic pod restart policy
 
 ## Quick Start
 ```bash
-docker compose up -d --build
+docker build -t self-healing-web-web:latest .
+kubectl apply -f k8s.yaml
+kubectl get pods
